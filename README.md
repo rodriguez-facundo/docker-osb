@@ -7,3 +7,4 @@ Manually configured (via docker shell):
 * importing any existing database
 * `org.geppetto.core/src/main/resources/Geppetto.properties` Amazon S3 bucket info
 * change database default password
+* OSB git repositories
