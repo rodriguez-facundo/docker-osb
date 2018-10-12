@@ -11,7 +11,7 @@ services:
     environment:
     - DB_USER=redmine
     - DB_PASS=password
-    - DB_NAME=redmine_production
+    - DB_NAME=redmine
     volumes:
     - /srv/docker/redmine/mysql:/var/lib/mysql
 
@@ -27,7 +27,7 @@ services:
     - DB_PORT=3306
     - DB_USER=redmine
     - DB_PASS=password
-    - DB_NAME=redmine_production
+    - DB_NAME=redmine
 
     - REDMINE_PORT=10083
     - REDMINE_HTTPS=false
