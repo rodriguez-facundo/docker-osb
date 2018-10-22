@@ -19,7 +19,6 @@ ENV BRANCH_ORG_GEPPETTO_CORE=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_MODEL=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_MODEL_SWC=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_MODEL_NEUROML=$BRANCH_DEFAULT
-ENV BRANCH_ORG_GEPPETTO_DATASOURCES=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_PERSISTENCE=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_SIMULATION=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_SIMULATOR_EXTERNAL=$BRANCH_DEFAULT
@@ -48,9 +47,6 @@ cd org.geppetto.core && git checkout $BRANCH_ORG_GEPPETTO_CORE || true
 RUN cd /opt/geppetto && \
 git clone https://github.com/openworm/org.geppetto.model.git -b $BRANCH_BASE && \
 cd org.geppetto.model && git checkout $BRANCH_ORG_GEPPETTO_MODEL || true 
-RUN cd /opt/geppetto && \
-git clone https://github.com/openworm/org.geppetto.datasources.git -b $BRANCH_BASE && \
-cd org.geppetto.datasources && git checkout $BRANCH_ORG_GEPPETTO_DATASOURCES || true 
 RUN cd /opt/geppetto && \
 git clone https://github.com/openworm/org.geppetto.persistence.git -b $BRANCH_BASE && \
 cd org.geppetto.persistence && git checkout $BRANCH_ORG_GEPPETTO_PERSISTENCE || true 
