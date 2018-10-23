@@ -22,8 +22,12 @@ ENV BRANCH_ORG_GEPPETTO_MODEL_NEUROML=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_PERSISTENCE=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_SIMULATION=$BRANCH_DEFAULT
 ENV BRANCH_ORG_GEPPETTO_SIMULATOR_EXTERNAL=$BRANCH_DEFAULT
-ENV BRANCH_GEPPETTO_VFB=$BRANCH_DEFAULT
-ENV BRANCH_UK_AC_VFB_GEPPETTO=$BRANCH_DEFAULT
+ENV BRANCH_GEPPETTO_OSB=$BRANCH_DEFAULT
+
+# Persistence Config
+RUN mkdir -p /home/virgo/geppetto/
+COPY dockerFiles/aws.credentials /home/virgo/geppetto/aws.credentials
+COPY dockerFiles/db.properties /home/virgo/geppetto/db.properties
 
 RUN mkdir -p /opt/geppetto
 ENV SERVER_HOME=/home/virgo/
@@ -40,7 +44,7 @@ git clone https://github.com/openworm/org.geppetto.frontend.git -b $BRANCH_BASE 
 cd org.geppetto.frontend && git checkout $BRANCH_ORG_GEPPETTO_FRONTEND || true 
 RUN cd /opt/geppetto && \
 git clone https://github.com/OpenSourceBrain/geppetto-osb.git -b $BRANCH_BASE && \
-cd geppetto-osb && git checkout $BRANCH_GEPPETTO_VFB || true 
+cd geppetto-osb && git checkout $BRANCH_GEPPETTO_OSB || true 
 RUN cd /opt/geppetto && \
 git clone https://github.com/openworm/org.geppetto.core.git -b $BRANCH_BASE && \
 cd org.geppetto.core && git checkout $BRANCH_ORG_GEPPETTO_CORE || true 

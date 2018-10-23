@@ -11,7 +11,7 @@ services:
     environment:
     - DB_USER=redmine
     - DB_PASS=password
-    - DB_NAME=redmine
+    - DB_NAME=redmine,geppetto
     volumes:
     - /srv/docker/redmine/mysql:/var/lib/mysql
 
