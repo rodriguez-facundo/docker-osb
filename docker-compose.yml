@@ -16,7 +16,6 @@ services:
     - DB_NAME=redmine,geppetto
     volumes:
     - /srv/docker/redmine/mysql:/var/lib/mysql
-
   redmine:
     build: "git://github.com/mattearnshaw/docker-redmine-osb.git"
     depends_on:

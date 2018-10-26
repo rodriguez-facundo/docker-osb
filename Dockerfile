@@ -73,6 +73,8 @@ mv geppetto-osb org.geppetto.frontend/src/main/webapp/extensions/
 COPY dockerFiles/pom.xml /opt/geppetto/org.geppetto/pom.xml.temp
 COPY dockerFiles/geppetto.plan /opt/geppetto/org.geppetto/geppetto.plan
 COPY dockerFiles/GeppettoConfiguration.json /opt/geppetto/org.geppetto.frontend/src/main/webapp/GeppettoConfiguration.json
+COPY dockerFiles/Geppetto.properties /opt/geppetto/org.geppetto.core/src/main/resources/Geppetto.properties
+COPY dockerFiles/app-config.xml /opt/geppetto/org.geppetto.simulator.external/src/main/java/META-INF/spring/app-config.xml
 RUN mkdir -p /opt/OSB
 COPY dockerFiles/startup.sh /opt/OSB/startup.sh
 USER root

@@ -4,11 +4,11 @@ using https://github.com/mattearnshaw/docker-redmine-osb
 
 # Manually configured (via docker shell):
 ## Pre-install
-* `dockerFile/aws.credentials`
-* `dockerFile/db.properties`
-* `dockerFile/GeppettoConfiguration.json`
-* `simulator.external` app-config.xml
-* `org.geppetto.core/src/main/resources/Geppetto.properties` Amazon S3 bucket info
+* `dockerFiles/aws.credentials`
+* `dockerFiles/db.properties`
+* `dockerFiles/GeppettoConfiguration.json`
+* `dockerFiles/app-config.xml` (simulator.external)
+* `dockerFiles/Geppetto.properties` (s3 bucket name)
 
 ## Post-install
 * importing any existing databases
