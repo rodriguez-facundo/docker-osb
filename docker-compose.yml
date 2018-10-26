@@ -6,6 +6,8 @@ services:
       context: .
     ports:
     - "8080:8080"
+    links:
+    - "mysql:database"
   mysql:
     image: sameersbn/mysql:latest
     environment:
