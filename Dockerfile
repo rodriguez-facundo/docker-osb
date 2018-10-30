@@ -29,8 +29,7 @@ RUN mkdir -p /home/virgo/geppetto/
 COPY dockerFiles/aws.credentials /home/virgo/geppetto/aws.credentials
 COPY dockerFiles/db.properties /home/virgo/geppetto/db.properties
 
-RUN mkdir -p /opt/geppetto
-ENV SERVER_HOME=/home/virgo/
+RUN cd /home/virgo && git clone https://github.com/OpenSourceBrain/OSB_Samples
 
 RUN mkdir -p /opt/geppetto
 ENV SERVER_HOME=/home/virgo/
@@ -90,7 +89,6 @@ mv pom.xml.temp pom.xml && \
 sed -i "s@%VERSION%@${VERSION}@g" pom.xml && \
 sed -i "s@%VERSION%@${VERSION}@g" geppetto.plan
 
-#ENV SERVER_HOME=/home/developer/virgo/
 ENV MAVEN_OPTS=-Dhttps.protocols=TLSv1.2
 #RUN git clone https://github.com/OpenSourceBrain/geppetto-osb.git
 

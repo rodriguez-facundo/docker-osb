@@ -4,6 +4,7 @@ using https://github.com/mattearnshaw/docker-redmine-osb
 
 # Manually configured (via docker shell):
 ## Pre-install
+* `docker-compose.yml` redmine environment variables (db, email etc.)
 * `dockerFiles/aws.credentials`
 * `dockerFiles/db.properties`
 * `dockerFiles/GeppettoConfiguration.json`
@@ -14,3 +15,4 @@ using https://github.com/mattearnshaw/docker-redmine-osb
 * importing any existing databases
 * change database default password
 * OSB git repositories
+* `redmine/config/props.yml`
