@@ -1,4 +1,5 @@
 FROM slarson/virgo-tomcat-server:3.6.4-RELEASE-jre-7
+FROM ubuntu:xenial-20180705 AS add-apt-repositories
 
 USER root
 # update maven: 
