@@ -6,7 +6,7 @@ COPY dockerFiles/apache-maven-3.3.9-bin.tar.gz /tmp/apache-maven-3.3.9-bin.tar.g
 RUN cd /opt/ \
 && tar -zxvf /tmp/apache-maven-3.3.9-bin.tar.gz
 RUN chmod -R 777 /opt
-RUN apt-get update --fix-missing && apt-get install -y software-properties-common sshfs git curl bsdtar && \
+RUN apt-get update --fix-missing && apt-get install -y make gcc libncurses-dev software-properties-common sshfs git curl bsdtar && \
     add-apt-repository ppa:openjdk-r/ppa  && \
     apt-get upgrade -y && \
     apt-get update && \
