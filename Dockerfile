@@ -10,7 +10,7 @@ RUN apt-get update --fix-missing && apt-get install -y software-properties-commo
     add-apt-repository ppa:openjdk-r/ppa  && \
     apt-get upgrade -y && \
     apt-get update && \
-    apt-get install -y openjdk-7-jdk && \
+    apt-get install -y openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH=/opt/apache-maven-3.3.9/bin/:$PATH
@@ -40,7 +40,6 @@ RUN cd /home/virgo && git clone https://github.com/OpenSourceBrain/OSB_Samples
 
 RUN mkdir -p /opt/geppetto
 ENV SERVER_HOME=/home/virgo/
-
 RUN cd /opt/geppetto && \
 echo cloning required modules: && \
 git clone https://github.com/openworm/org.geppetto.git -b $BRANCH_BASE && \
@@ -114,7 +113,10 @@ VOLUME /home/virgo
 # Build Geppetto:
 RUN cd /opt/geppetto/org.geppetto && mvn -Dhttps.protocols=TLSv1.2 -Dmaven.test.skip clean install
 #RUN cd workspace/org.geppetto && mvn --quiet clean install
-RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python update_server.py
+USER root
+RUN apt update && apt upgrade && apt-get -y install python2.7
+USER virgo
+RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python2.7 update_server.py
 
 ENTRYPOINT ["/opt/OSB/startup.sh"]
 #RUN useradd -ms /bin/bash virgo
