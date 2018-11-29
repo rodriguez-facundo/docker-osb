@@ -1,4 +1,3 @@
-FROM slarson/virgo-tomcat-server:3.6.4-RELEASE-jre-7
 FROM ubuntu:xenial-20180705 AS add-apt-repositories
 
 USER root
@@ -7,9 +6,16 @@ COPY dockerFiles/apache-maven-3.3.9-bin.tar.gz /tmp/apache-maven-3.3.9-bin.tar.g
 RUN cd /opt/ \
 && tar -zxvf /tmp/apache-maven-3.3.9-bin.tar.gz
 RUN chmod -R 777 /opt
-RUN apt-get update --fix-missing && apt-get install -y sshfs
+RUN apt-get update --fix-missing && apt-get install -y software-properties-common sshfs git curl bsdtar && \
+    add-apt-repository ppa:openjdk-r/ppa  && \
+    apt-get upgrade -y && \
+    apt-get update && \
+    apt-get install -y openjdk-7-jdk && \
+    rm -rf /var/lib/apt/lists/*
+
 ENV PATH=/opt/apache-maven-3.3.9/bin/:$PATH
 
+RUN useradd -ms /bin/bash virgo
 USER virgo
 # Geppetto:
 ENV BRANCH_BASE=development
@@ -96,6 +102,14 @@ ENV MAVEN_OPTS=-Dhttps.protocols=TLSv1.2
 #RUN mv geppetto-osb workspace/org.geppetto.frontend/src/main/webapp/extensions/ 
 RUN sed 's/geppetto-default\/ComponentsInitialization":\ true/geppetto-default\/ComponentsInitialization":\ false/g' /opt/geppetto/org.geppetto.frontend/src/main/webapp/GeppettoConfiguration.json | sed -e 's/geppetto-osb\/ComponentsInitialization":\ false/geppetto-osb\/ComponentsInitialization":\ true/g' | sed -e 's/embedderURL":\ \["\/"\]/embedderURL":\ ["http:\/\/0.0.0.0:3000"]/' | sed -e 's/embedded":\ false/embedded":\ true/' > /opt/geppetto/org.geppetto.frontend/src/main/webapp/NEWGeppettoConfiguration.json && \
 mv /opt/geppetto/org.geppetto.frontend/src/main/webapp/NEWGeppettoConfiguration.json /opt/geppetto/org.geppetto.frontend/src/main/webapp/GeppettoConfiguration.json
+
+RUN curl -L 'http://www.eclipse.org/downloads/download.php?file=/virgo/release/VP/3.6.4.RELEASE/virgo-tomcat-server-3.6.4.RELEASE.zip&mirror_id=580&r=1' | bsdtar --strip-components 1 -C /home/virgo -xzf -
+EXPOSE 8080
+USER root
+RUN chmod u+x /home/virgo/bin/*.sh
+RUN chown -R virgo:virgo /home/virgo
+USER virgo
+VOLUME /home/virgo
 
 # Build Geppetto:
 RUN cd /opt/geppetto/org.geppetto && mvn -Dhttps.protocols=TLSv1.2 -Dmaven.test.skip clean install
