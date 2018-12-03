@@ -116,6 +116,7 @@ RUN cd /opt/geppetto/org.geppetto && mvn -Dhttps.protocols=TLSv1.2 -Dmaven.test.
 #RUN cd workspace/org.geppetto && mvn --quiet clean install
 USER root
 RUN apt update && apt upgrade && apt-get -y install python2.7
+RUN ln -s /usr/bin/python2.7 /usr/bin/python
 USER virgo
 RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python2.7 update_server.py
 

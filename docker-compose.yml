@@ -63,6 +63,6 @@ services:
     - IMAP_INTERVAL=30
 
     ports:
-    - "3000:80"
+    - "80:80"
     volumes:
     - /srv/docker/redmine/redmine:/home/redmine/data
