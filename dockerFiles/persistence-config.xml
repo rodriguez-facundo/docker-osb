@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/> -->
+	<!-- Instructs Spring to scan for internal service components to instantiate 
+		and configure -->
+	<context:annotation-config />
+	<context:component-scan base-package="org.geppetto.persistence" />
+
+	<bean id="bundleLoaderAspectBean" class="org.geppetto.persistence.db.BundleClassLoaderAspect"></bean>
+	
+	<bean id="dbManager" class="org.geppetto.persistence.db.DBManager">
+		<property name="persistenceManagerFactory" ref="persistenceManagerFactoryProxy" />
+	</bean>
+
+	<!-- persistence manager factory proxy -->
+	<bean id="persistenceManagerFactoryProxy"
+		class="org.springframework.orm.jdo.TransactionAwarePersistenceManagerFactoryProxy">
+		<property name="targetPersistenceManagerFactory" ref="pmf" />
+	</bean>
+
+	<!-- transactions -->
+	<bean id="txManager" class="org.springframework.orm.jdo.JdoTransactionManager">
+		<property name="persistenceManagerFactory" ref="persistenceManagerFactoryProxy" />
+	</bean>
+
+	<bean id="pmf"
+		class="org.geppetto.persistence.db.OSGiLocalPersistenceManagerFactoryBean">
+		<property name="jdoProperties">
+			<props>
+				<prop key="datanucleus.autoCreateSchema">true</prop>
+				<prop key="datanucleus.autoCreateColumns">true</prop>
+				<prop key="datanucleus.DetachAllOnCommit">true</prop>
+				<prop key="datanucleus.storeManagerType">rdbms</prop>
+				<prop key="datanucleus.Multithreaded">true</prop>
+				<prop key="datanucleus.validateTables">true</prop>
+				<prop key="datanucleus.connection.resourceType">RESOURCE_LOCAL</prop>
+				<prop key="datanucleus.connection2.resourceType">RESOURCE_LOCAL</prop>
+
+				<prop key="datanucleus.plugin.pluginRegistryClassName">org.datanucleus.plugin.OSGiPluginRegistry</prop>
+			</props>
+		</property>
+	</bean>
+
+        <bean id="authFailureRedirectURL" class="java.lang.String">
+          <constructor-arg value="http://opensourcebrain.org/geppettoError.html"/>
+	</bean>
+</beans>

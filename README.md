@@ -8,7 +8,8 @@ using https://github.com/mattearnshaw/docker-redmine-osb
 * `dockerFiles/aws.credentials`
 * `dockerFiles/db.properties`
 * `dockerFiles/GeppettoConfiguration.json`
-* `dockerFiles/app-config.xml` (simulator.external)
+* `dockerFiles/simulator-config.xml` (simulator.external)
+* `dockerFiles/persistence-config.xml` (for changing auth redirect URL if necessary)
 * `dockerFiles/Geppetto.properties` (s3 bucket name)
 
 ## Post-install
@@ -16,3 +17,7 @@ using https://github.com/mattearnshaw/docker-redmine-osb
 * change database default password
 * OSB git repositories
 * `redmine/config/props.yml`
+* config sendmail in redmine
+
+# Useful stuff
+* to restart redmine without restarting the docker `supervisorctl; restart unicorn`
