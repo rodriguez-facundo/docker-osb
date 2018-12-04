@@ -115,15 +115,15 @@ VOLUME /home/virgo
 RUN cd /opt/geppetto/org.geppetto && mvn -Dhttps.protocols=TLSv1.2 -Dmaven.test.skip clean install
 #RUN cd workspace/org.geppetto && mvn --quiet clean install
 USER root
-RUN apt update && apt upgrade && apt-get -y install python2.7 wget make gcc lsof libreadline5 libreadline-dev lib32z1-dev libpython2.7-dev mpich autoconf 
+RUN apt update && apt upgrade && apt-get -y install python2.7 wget make gcc lsof libreadline5 libreadline-dev lib32z1-dev libpython2.7-dev mpich autoconf python-pip
 RUN ln -s /usr/bin/python2.7 /usr/bin/python
 USER virgo
 RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python2.7 update_server.py
 RUN cd /opt/geppetto && git clone git://github.com/NeuroML/jNeuroML.git neuroml_dev/jNeuroML && cd neuroml_dev/jNeuroML && python getNeuroML.py
 RUN cd /tmp && wget "https://neuron.yale.edu/ftp/neuron/versions/v7.6/7.6.2/nrn-7.6.2.tar.gz" && tar xvfz nrn-7.6.2.tar.gz
 USER root
-RUN cd /tmp/nrn-7.6.2 && ./configure --without-iv --with-nrnpython=/usr/bin/python2.7 && make && make install
-RUN python -m pip pynn netpyne pyneuroml
+RUN cd /tmp/nrn-7.6 && ./configure --without-iv --with-nrnpython=/usr/bin/python2.7 && make && make install
+RUN pip install --upgrade pip && python -m pip install pynn netpyne pyneuroml
 USER virgo
 
 ENTRYPOINT ["/opt/OSB/startup.sh"]
