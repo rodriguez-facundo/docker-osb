@@ -123,6 +123,7 @@ RUN cd /opt/geppetto && git clone git://github.com/NeuroML/jNeuroML.git neuroml_
 RUN cd /tmp && wget "https://neuron.yale.edu/ftp/neuron/versions/v7.6/7.6.2/nrn-7.6.2.tar.gz" && tar xvfz nrn-7.6.2.tar.gz
 USER root
 RUN cd /tmp/nrn-7.6.2 && ./configure --without-iv --with-nrnpython=/usr/bin/python2.7 && make && make install
+RUN python -m pip pynn netpyne pyneuroml
 USER virgo
 
 ENTRYPOINT ["/opt/OSB/startup.sh"]
