@@ -115,10 +115,15 @@ VOLUME /home/virgo
 RUN cd /opt/geppetto/org.geppetto && mvn -Dhttps.protocols=TLSv1.2 -Dmaven.test.skip clean install
 #RUN cd workspace/org.geppetto && mvn --quiet clean install
 USER root
-RUN apt update && apt upgrade && apt-get -y install python2.7
+RUN apt update && apt upgrade && apt-get -y install python2.7 wget make gcc lsof
 RUN ln -s /usr/bin/python2.7 /usr/bin/python
 USER virgo
 RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python2.7 update_server.py
+RUN cd /opt/geppetto && git clone git://github.com/NeuroML/jNeuroML.git neuroml_dev/jNeuroML && cd neuroml_dev/jNeuroML && python getNeuroML.py
+RUN cd /tmp && wget "https://neuron.yale.edu/ftp/neuron/versions/v7.6/nrn-7.6.x86_64-linux.deb"
+USER root
+RUN cd /tmp && dpkg -i nrn-7.6.x86_64-linux.deb
+USER virgo
 
 ENTRYPOINT ["/opt/OSB/startup.sh"]
 #RUN useradd -ms /bin/bash virgo
