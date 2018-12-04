@@ -43,7 +43,7 @@
 	
 	<!-- Add flag for External Simulation Run Mode --> 
 	<bean id="lemsExternalSimulatorConfig" class="org.geppetto.core.simulator.ExternalSimulatorConfig"> 
-		<property name="simulatorPath" value="/home/matt/work/silver-lab/neuroml_dev/jNeuroML/" />
+		<property name="simulatorPath" value="/opt/geppetto/neuroml_dev/jNeuroML/" />
 	</bean>
     
 		<!-- Add flag for Simulation Run Mode --> 
@@ -54,7 +54,7 @@
 	
 	<!-- Add flag for External Simulation Run Mode --> 
 	<bean id="jneuromlExternalSimulatorConfig" class="org.geppetto.core.simulator.ExternalSimulatorConfig"> 
-		<property name="simulatorPath" value="/home/matt/work/silver-lab/neuroml_dev/jNeuroML/" />
+		<property name="simulatorPath" value="/opt/geppetto/neuroml_dev/jNeuroML/" />
 	</bean>
     	
 	<!-- Add flag for Simulation Run Mode --> 
