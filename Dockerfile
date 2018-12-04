@@ -6,12 +6,24 @@ COPY dockerFiles/apache-maven-3.3.9-bin.tar.gz /tmp/apache-maven-3.3.9-bin.tar.g
 RUN cd /opt/ \
 && tar -zxvf /tmp/apache-maven-3.3.9-bin.tar.gz
 RUN chmod -R 777 /opt
-RUN apt-get update --fix-missing && apt-get install -y make gcc libncurses-dev software-properties-common sshfs git curl bsdtar && \
+RUN apt-get update --fix-missing && apt-get install -y python2.7 wget lsof libreadline5 libreadline-dev lib32z1-dev libpython2.7-dev mpich autoconf \
+	python-pip make gcc libncurses-dev software-properties-common sshfs git curl bsdtar && \
     add-apt-repository ppa:openjdk-r/ppa  && \
     apt-get upgrade -y && \
     apt-get update && \
     apt-get install -y openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
+# symlink for OSB.sh script
+RUN ln -s /usr/bin/python2.7 /usr/bin/python
+
+USER virgo
+RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python2.7 update_server.py
+RUN cd /opt/geppetto && git clone git://github.com/NeuroML/jNeuroML.git neuroml_dev/jNeuroML && cd neuroml_dev/jNeuroML && python getNeuroML.py
+RUN cd /tmp && wget "https://neuron.yale.edu/ftp/neuron/versions/v7.6/7.6.2/nrn-7.6.2.tar.gz" && tar xvfz nrn-7.6.2.tar.gz
+
+USER root
+RUN cd /tmp/nrn-7.6 && ./configure --without-iv --with-nrnpython=/usr/bin/python2.7 && make && make install
+RUN pip install --upgrade pip && python -m pip install pynn netpyne pyneuroml
 
 ENV PATH=/opt/apache-maven-3.3.9/bin/:$PATH
 
@@ -97,11 +109,6 @@ sed -i "s@%VERSION%@${VERSION}@g" pom.xml && \
 sed -i "s@%VERSION%@${VERSION}@g" geppetto.plan
 
 ENV MAVEN_OPTS=-Dhttps.protocols=TLSv1.2
-#RUN git clone https://github.com/OpenSourceBrain/geppetto-osb.git
-
-#RUN mv geppetto-osb workspace/org.geppetto.frontend/src/main/webapp/extensions/ 
-RUN sed 's/geppetto-default\/ComponentsInitialization":\ true/geppetto-default\/ComponentsInitialization":\ false/g' /opt/geppetto/org.geppetto.frontend/src/main/webapp/GeppettoConfiguration.json | sed -e 's/geppetto-osb\/ComponentsInitialization":\ false/geppetto-osb\/ComponentsInitialization":\ true/g' | sed -e 's/embedderURL":\ \["\/"\]/embedderURL":\ ["http:\/\/0.0.0.0:3000"]/' | sed -e 's/embedded":\ false/embedded":\ true/' > /opt/geppetto/org.geppetto.frontend/src/main/webapp/NEWGeppettoConfiguration.json && \
-mv /opt/geppetto/org.geppetto.frontend/src/main/webapp/NEWGeppettoConfiguration.json /opt/geppetto/org.geppetto.frontend/src/main/webapp/GeppettoConfiguration.json
 
 RUN curl -L 'http://www.eclipse.org/downloads/download.php?file=/virgo/release/VP/3.6.4.RELEASE/virgo-tomcat-server-3.6.4.RELEASE.zip&mirror_id=580&r=1' | bsdtar --strip-components 1 -C /home/virgo -xzf -
 EXPOSE 8080
@@ -113,18 +120,5 @@ VOLUME /home/virgo
 
 # Build Geppetto:
 RUN cd /opt/geppetto/org.geppetto && mvn -Dhttps.protocols=TLSv1.2 -Dmaven.test.skip clean install
-#RUN cd workspace/org.geppetto && mvn --quiet clean install
-USER root
-RUN apt update && apt upgrade && apt-get -y install python2.7 wget make gcc lsof libreadline5 libreadline-dev lib32z1-dev libpython2.7-dev mpich autoconf python-pip
-RUN ln -s /usr/bin/python2.7 /usr/bin/python
-USER virgo
-RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python2.7 update_server.py
-RUN cd /opt/geppetto && git clone git://github.com/NeuroML/jNeuroML.git neuroml_dev/jNeuroML && cd neuroml_dev/jNeuroML && python getNeuroML.py
-RUN cd /tmp && wget "https://neuron.yale.edu/ftp/neuron/versions/v7.6/7.6.2/nrn-7.6.2.tar.gz" && tar xvfz nrn-7.6.2.tar.gz
-USER root
-RUN cd /tmp/nrn-7.6 && ./configure --without-iv --with-nrnpython=/usr/bin/python2.7 && make && make install
-RUN pip install --upgrade pip && python -m pip install pynn netpyne pyneuroml
-USER virgo
 
 ENTRYPOINT ["/opt/OSB/startup.sh"]
-#RUN useradd -ms /bin/bash virgo
