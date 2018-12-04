@@ -1,10 +1,11 @@
 using https://github.com/mattearnshaw/docker-redmine-osb
 
-`docker-compose up`
+`docker-compose build --build-arg GEPPETTO_IP=http://opensourcebrain.org:8080/ --build-arg SERVER_IP=http://opensourcebrain.org/ redmine`
 
 # Manually configured (via docker shell):
 ## Pre-install
 * `docker-compose.yml` redmine environment variables (db, email etc.)
+* `Dockerfile` set desired geppetto branches
 * `dockerFiles/aws.credentials`
 * `dockerFiles/db.properties`
 * `dockerFiles/GeppettoConfiguration.json`
