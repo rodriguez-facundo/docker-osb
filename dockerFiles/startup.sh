@@ -20,4 +20,4 @@ sed 's\redirectPort="8443"\\g' -i /home/virgo/configuration/tomcat-server.xml
 tail -F --retry ~/serviceability/logs/log.log & 
 
 # start virgo server
-/home/virgo/bin/startup.sh 
+env JNML_HOME=/opt/geppetto/neuroml_dev/jNeuroML/ /home/virgo/bin/startup.sh

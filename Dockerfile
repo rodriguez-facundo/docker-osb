@@ -14,10 +14,12 @@ RUN apt-get update --fix-missing && apt-get install -y python2.7 wget lsof libre
     apt-get install -y openjdk-8-jdk && \
     rm -rf /var/lib/apt/lists/*
 # symlink for OSB.sh script
-RUN ln -s /usr/bin/python2.7 /usr/bin/python
+RUN ln -s /usr/bin/python2.7 /usr/bin/python | true
 
+RUN useradd -ms /bin/bash virgo
 USER virgo
-RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python2.7 update_server.py
+ENV PATH=/opt/apache-maven-3.3.9/bin/:$PATH
+RUN mkdir -p /opt/geppetto
 RUN cd /opt/geppetto && git clone git://github.com/NeuroML/jNeuroML.git neuroml_dev/jNeuroML && cd neuroml_dev/jNeuroML && python getNeuroML.py
 RUN cd /tmp && wget "https://neuron.yale.edu/ftp/neuron/versions/v7.6/7.6.2/nrn-7.6.2.tar.gz" && tar xvfz nrn-7.6.2.tar.gz
 
@@ -25,9 +27,6 @@ USER root
 RUN cd /tmp/nrn-7.6 && ./configure --without-iv --with-nrnpython=/usr/bin/python2.7 && make && make install
 RUN pip install --upgrade pip && python -m pip install pynn netpyne pyneuroml
 
-ENV PATH=/opt/apache-maven-3.3.9/bin/:$PATH
-
-RUN useradd -ms /bin/bash virgo
 USER virgo
 # Geppetto:
 ENV BRANCH_BASE=development
@@ -50,7 +49,6 @@ COPY dockerFiles/db.properties /home/virgo/geppetto/db.properties
 
 RUN cd /home/virgo && git clone https://github.com/OpenSourceBrain/OSB_Samples
 
-RUN mkdir -p /opt/geppetto
 ENV SERVER_HOME=/home/virgo/
 RUN cd /opt/geppetto && \
 echo cloning required modules: && \
@@ -120,5 +118,6 @@ VOLUME /home/virgo
 
 # Build Geppetto:
 RUN cd /opt/geppetto/org.geppetto && mvn -Dhttps.protocols=TLSv1.2 -Dmaven.test.skip clean install
+RUN cd /opt/geppetto/org.geppetto/utilities/source_setup && python2.7 update_server.py
 
 ENTRYPOINT ["/opt/OSB/startup.sh"]
