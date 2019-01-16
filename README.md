@@ -1,10 +1,8 @@
-using https://github.com/mattearnshaw/docker-redmine-osb
-
-`docker-compose build --build-arg GEPPETTO_IP=http://opensourcebrain.org:8080/ --build-arg SERVER_IP=http://opensourcebrain.org/ redmine`
+(uses https://github.com/mattearnshaw/docker-redmine-osb)
 
 # Manually configured (via docker shell):
 ## Pre-install
-* `docker-compose.yml` redmine environment variables (db, email etc.), SERVER_IP (eg. = http://comodl.org/), GEPPETTO_IP (eg. = http://comodl.org:8080/) note trailing slashes
+* `docker-compose.yml` redmine environment variables (db, email etc.), SERVER_IP (eg. = http://comodl.org/), GEPPETTO_IP (eg. = http://comodl.org:8080/) note trailing slashes, redmine branch eg. `context: "git://github.com/mattearnshaw/docker-redmine-osb.git#development"`
 * `Dockerfile` set desired geppetto branches
 * `dockerFiles/aws.credentials`
 * `dockerFiles/db.properties`
