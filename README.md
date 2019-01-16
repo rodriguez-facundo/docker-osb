@@ -4,7 +4,7 @@ using https://github.com/mattearnshaw/docker-redmine-osb
 
 # Manually configured (via docker shell):
 ## Pre-install
-* `docker-compose.yml` redmine environment variables (db, email etc.)
+* `docker-compose.yml` redmine environment variables (db, email etc.), SERVER_IP (eg. = http://comodl.org/), GEPPETTO_IP (eg. = http://comodl.org:8080/) note trailing slashes
 * `Dockerfile` set desired geppetto branches
 * `dockerFiles/aws.credentials`
 * `dockerFiles/db.properties`
@@ -16,9 +16,11 @@ using https://github.com/mattearnshaw/docker-redmine-osb
 ## Post-install
 * importing any existing databases
 * change database default password
-* OSB git repositories
-* `redmine/config/props.yml`
+~~* sync OSB git repositories to `/home/svnsvn/myGitRepositories` in redmine container~~ currently pulled from https://github.com/mattearnshaw/osbprojects but new repos need to be added to this manually…
 * config sendmail in redmine
+
+# To-do
+* recaptcha plugin (`rm -rf app/views`)
 
 # Useful stuff
 * to restart redmine without restarting the docker `supervisorctl; restart unicorn`
