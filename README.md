@@ -14,7 +14,7 @@
 ## Post-install
 * importing any existing databases
 * change database default password
-~~* sync OSB git repositories to `/home/svnsvn/myGitRepositories` in redmine container~~ currently pulled from https://github.com/mattearnshaw/osbprojects but new repos need to be added to this manually…
+* ~~sync OSB git repositories to `/home/svnsvn/myGitRepositories` in redmine container~~ currently pulled from https://github.com/mattearnshaw/osbprojects but new repos need to be added to this manually…
 * config sendmail in redmine
 
 # To-do
