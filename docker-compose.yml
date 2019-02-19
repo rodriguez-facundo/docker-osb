@@ -66,3 +66,4 @@ services:
     - "80:80"
     volumes:
     - /srv/docker/redmine/redmine:/home/redmine/data
+    - /srv/docker/redmine/myGitRepositories:/home/svnsvn/myGitRepositories
