@@ -10,6 +10,7 @@
 * `dockerFiles/simulator-config.xml` (simulator.external)
 * `dockerFiles/persistence-config.xml` (for changing auth redirect URL if necessary)
 * `dockerFiles/Geppetto.properties` (s3 bucket name)
+* `dockerFiles/startup.sh` set MAXSIZE heap for jvm
 * OSB git repositories -> /srv/docker/redmine/myGitRepositories
 
 ## Post-install
