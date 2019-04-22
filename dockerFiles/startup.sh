@@ -5,7 +5,7 @@ mkdir -p ~/serviceability/logs
 echo 'Start of log...' > ~/serviceability/logs/log.log
 
 # deploy Geppetto
-cd /opt/geppetto/org.geppetto/utilities/source_setup 
+cd /home/virgo/geppetto/org.geppetto/utilities/source_setup 
 python update_server.py
 
 export MAXSIZE=2g
